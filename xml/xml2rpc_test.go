@@ -11,13 +11,13 @@ import (
 )
 
 type SubStructXml2Rpc struct {
-	Foo  int
+	Foo  int64
 	Bar  string
-	Data []int
+	Data []int64
 }
 
 type StructXml2Rpc struct {
-	Int    int
+	Int    int64
 	Float  float64
 	Str    string
 	Bool   bool
@@ -32,7 +32,7 @@ func TestXML2RPC(t *testing.T) {
 	if err != nil {
 		t.Error("XML2RPC conversion failed", err)
 	}
-	expected_req := &StructXml2Rpc{123, 3.145926, "Hello, World!", false, SubStructXml2Rpc{42, "I'm Bar", []int{1, 2, 3}}, time.Date(2012, time.July, 17, 14, 8, 55, 0, time.Local), []byte("you can't read this!")}
+	expected_req := &StructXml2Rpc{123, 3.145926, "Hello, World!", false, SubStructXml2Rpc{42, "I'm Bar", []int64{1, 2, 3}}, time.Date(2012, time.July, 17, 14, 8, 55, 0, time.Local), []byte("you can't read this!")}
 	if !reflect.DeepEqual(req, expected_req) {
 		t.Error("XML2RPC conversion failed")
 		t.Error("Expected", expected_req)
@@ -79,7 +79,7 @@ func TestXML2RPCNil(t *testing.T) {
 type StructXml2RpcSubArgs struct {
 	String1 string
 	String2 string
-	Id      int
+	Id      int64
 }
 
 type StructXml2RpcHelloArgs struct {

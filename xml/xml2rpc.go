@@ -113,9 +113,11 @@ func value2Field(value value, field *reflect.Value) error {
 
 	switch {
 	case value.Int != "":
-		val, _ = strconv.Atoi(value.Int)
+		v, _ := strconv.Atoi(value.Int)
+		val = int64(v)
 	case value.Int4 != "":
-		val, _ = strconv.Atoi(value.Int4)
+		v, _ := strconv.Atoi(value.Int4)
+		val = int64(v)
 	case value.Double != "":
 		val, _ = strconv.ParseFloat(value.Double, 64)
 	case value.String != "":
