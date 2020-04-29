@@ -73,6 +73,13 @@ func rpc2XML(value interface{}) (string, error) {
 	case reflect.Ptr:
 		if reflect.ValueOf(value).IsNil() {
 			out += "<nil/>"
+		} else {
+			var err error
+			out, err = rpc2XML(reflect.ValueOf(value).Elem().Interface())
+			if err != nil {
+				return "", err
+			}
+			return out, nil
 		}
 	}
 	out += "</value>"
