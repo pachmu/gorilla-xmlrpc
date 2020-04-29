@@ -130,17 +130,26 @@ func value2Field(value value, field *reflect.Value) error {
 		val, err = xml2Base64(value.Base64)
 	case len(value.Struct) != 0:
 		if field.Kind() != reflect.Struct {
-			fault := FaultInvalidParams
-			fault.String += fmt.Sprintf("structure fields mismatch: %s != %s", field.Kind(), reflect.Struct.String())
-			return fault
+			if field.Kind() == reflect.Ptr {
+				field.Set(reflect.New(field.Type().Elem()))
+			} else {
+				fault := FaultInvalidParams
+				fault.String += fmt.Sprintf("structure fields mismatch: %s != %s", field.Kind(), reflect.Struct.String())
+				return fault
+			}
 		}
 		s := value.Struct
 		for i := 0; i < len(s); i++ {
 			// Uppercase first letter for field name to deal with
 			// methods in lowercase, which cannot be used
 			field_name := uppercaseFirst(s[i].Name)
-			f := field.FieldByName(field_name)
-			err = value2Field(s[i].Value, &f)
+			var fbn reflect.Value
+			if field.Kind() == reflect.Ptr {
+				fbn = field.Elem().FieldByName(field_name)
+			} else {
+				fbn = field.FieldByName(field_name)
+			}
+			err = value2Field(s[i].Value, &fbn)
 		}
 	case len(value.Array) != 0:
 		a := value.Array

@@ -6,9 +6,9 @@ package xml
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"strconv"
 	"testing"
 
 	"github.com/gorilla/rpc"
@@ -18,18 +18,18 @@ import (
 // Service 1
 //////////////////////////////////
 type Service1Request struct {
-	A int
-	B int
+	A int64
+	B int64
 }
 
 type Service1BadRequest struct {
-	A int
-	B int
-	C int
+	A int64
+	B int64
+	C int64
 }
 
 type Service1Response struct {
-	Result int
+	Result int64
 }
 
 type Service1 struct {
@@ -45,20 +45,20 @@ func (t *Service1) Multiply(r *http.Request, req *Service1Request, res *Service1
 //////////////////////////////////
 type Service2Request struct {
 	Name      string
-	Age       int
+	Age       int64
 	HasPermit bool
 }
 
 type Service2Response struct {
 	Message string
-	Status  int
+	Status  int64
 }
 
 type Service2 struct {
 }
 
 func (t *Service2) GetGreeting(r *http.Request, req *Service2Request, res *Service2Response) error {
-	res.Message = "Hello, user " + req.Name + ". You're " + strconv.Itoa(req.Age) + " years old :-P"
+	res.Message = fmt.Sprintf("Hello, user %s. You're %d years old :-P", req.Name, req.Age)
 	if req.HasPermit {
 		res.Message += " And you has permit."
 	} else {
@@ -73,7 +73,7 @@ func (t *Service2) GetGreeting(r *http.Request, req *Service2Request, res *Servi
 //////////////////////////////////
 
 type Address struct {
-	Number  int
+	Number  int64
 	Street  string
 	Country string
 }
@@ -81,7 +81,7 @@ type Address struct {
 type Person struct {
 	Name    string
 	Surname string
-	Age     int
+	Age     int64
 	Address Address
 }
 

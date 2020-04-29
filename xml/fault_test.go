@@ -16,18 +16,18 @@ import (
 // Service 1
 //////////////////////////////////
 type FaultTestRequest struct {
-	A int
-	B int
+	A int64
+	B int64
 }
 
 type FaultTestBadRequest struct {
-	A int
-	B int
-	C int
+	A int64
+	B int64
+	C int64
 }
 
 type FaultTestResponse struct {
-	Result int
+	Result int64
 }
 
 type FaultTestBadResponse struct {

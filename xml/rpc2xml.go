@@ -49,6 +49,8 @@ func rpc2XML(value interface{}) (string, error) {
 	switch reflect.ValueOf(value).Kind() {
 	case reflect.Int:
 		out += fmt.Sprintf("<int>%d</int>", value.(int))
+	case reflect.Int64:
+		out += fmt.Sprintf("<int>%d</int>", value.(int64))
 	case reflect.Float64:
 		out += fmt.Sprintf("<double>%f</double>", value.(float64))
 	case reflect.String:

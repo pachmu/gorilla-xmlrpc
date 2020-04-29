@@ -16,7 +16,7 @@ type SubStructRpc2Xml struct {
 }
 
 type StructRpc2Xml struct {
-	Int    int
+	Int    int64
 	Float  float64
 	Str    string
 	Bool   bool
